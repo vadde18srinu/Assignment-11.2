@@ -107,12 +107,12 @@ chisq.test(df)
   
   (c). Is there any association between consumer price index and consumer?
 # Selecting observations to determine cluster parameters(charecter to numeric)
-CPA <- data.frame(as.numeric(as.factor(bank_addl_full$cons_price_inx)),
+CPA <- data.frame(as.numeric(as.factor(bank_addl_full$cons.price.inx)),
                    as.numeric(as.factor(bank_addl_full$age)))
 CPA
 
 # Rename the columns
-colnames(CPA) <- c("consumer_price_index", "age")
+colnames(CPA) <- c("consumer.price.index", "age")
 
 # Reduce the amount of dataset records for legibility within clusters
 CPA1 <-CPAL[sample(nrow(CPA),500),]
@@ -134,12 +134,58 @@ chisq.test(df)
   
   (d). Is the employment variation rate consistent across job types?
   
-  
+# Selecting observations to determine cluster parameters(charecter to numeric)
+EVJ <- data.frame(as.numeric(as.factor(bank_addl_full$emp.var.rate)),
+                   as.numeric(as.factor(bank_addl_full$job)))
+EVJ
+
+# Rename the columns
+colnames(EVJ) <- c("emp.var.rate", "job")
+
+# Reduce the amount of dataset records for legibility within clusters
+EVJ1 <- EVJ[sample(nrow(EVJ),500),]
+EVJ1
+
+# Kmeans clustering to create 5 clusters
+set.seed(12345)
+EVJ2 <- kmeans(EVJ1, centers=5)
+EVJ2
+
+library(dplyr)
+library(MASS)
+#chisqtest
+df<-table(EVJ$default,EVJ$job)
+df
+chisq.test(df) 
+
   
   
   (e). Is the employment variation rate same across education?
   
-  
+# Selecting observations to determine cluster parameters(charecter to numeric)
+EVE <- data.frame(as.numeric(as.factor(bank_addl_full$emp.var.rate)),
+                    as.numeric(as.factor(bank_addl_full$education)))
+EVE
+
+# Rename the columns
+colnames(EVE) <- c("emp.var.rate", "education")
+
+# Reduce the amount of dataset records for legibility within clusters
+EVE1 <- EVE[sample(nrow(EVE),500),]
+EVE1
+
+# Kmeans clustering to create 5 clusters
+set.seed(12345)
+EVE2 <- kmeans(EVE1, centers=5)
+EVE2
+
+library(dplyr)
+library(MASS)
+#chisqtest
+df<-table(EVE$default,EVE$job)
+df
+chisq.test(df) 
+
   
   
   (f). Which group is more confident?
